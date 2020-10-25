@@ -13,7 +13,7 @@ resource "aws_db_instance" "java-truck-graphql" {
   engine                      = "mysql"
   engine_version              = "8.0.20"
   instance_class              = "db.t2.micro"
-  name                        = "java-truck-graphql"
+  name                        = "JavaTruckGraphql"
   username                    = var.mysql_username
   password                    = var.mysql_password
   parameter_group_name        = "default.mysql8.0"
