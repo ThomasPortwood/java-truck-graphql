@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -149,21 +150,24 @@ public class Resolver {
         return true;
     }
 
-    @GraphQLSubscription
+    @GraphQLSubscription(description = "Subscribe to new order creation")
     public Publisher<Order> orderSubscription() {
         return Flux.create(
                 subscriber -> subscribers.add("order", subscriber.onDispose(() -> subscribers.remove("order", subscriber))),
                 FluxSink.OverflowStrategy.LATEST);
     }
 
-    @GraphQLQuery(description = "Get bean stats for previous 30 days")
+    @GraphQLQuery(description = "Get bean stats (items ordered for each bean type) for previous 30 days")
     public List<BeanStats> beanStats() {
         return beanStatsRepository.getBeanStats();
     }
 
-    @GraphQLQuery(description = "Calculate promotion")
-    public List<PromotionWinner> getPromotionWinners(@GraphQLNonNull @GraphQLId Long truckId) {
-        List<Order> orders = orderRepository.findByTruckId(truckId);
+    @GraphQLQuery(description = "Calculate promotional coupons for a given truck considering the past N days")
+    public List<PromotionWinner> getPromotionWinners(@GraphQLNonNull @GraphQLId Long truckId, @GraphQLNonNull Long days) {
+
+        List<Order> orders = orderRepository.findByTruckIdAndCreatedAtBetween(
+                truckId, ZonedDateTime.now(), ZonedDateTime.now().minusDays(days));
+
         return promotionCalculator.calculatePromotion(orders);
     }
 }
