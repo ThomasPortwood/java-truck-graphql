@@ -7,9 +7,9 @@ resource "kubernetes_ingress" "java-truck-graphql" {
       "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
       "alb.ingress.kubernetes.io/target-type"      = "ip"
       "alb.ingress.kubernetes.io/success-codes"    = "200"
-      "alb.ingress.kubernetes.io/healthcheck-path" = "/health"
+      "alb.ingress.kubernetes.io/healthcheck-path" = "/altair"
       "alb.ingress.kubernetes.io/certificate-arn"  = var.ssl_cert_arn
-      "alb.ingress.kubernetes.io/listen-ports"     = "[{\"HTTPS\":443}]"
+      "alb.ingress.kubernetes.io/listen-ports"     = "[{\"HTTPS\":443}, {\"HTTP\":80}]"
     }
   }
   spec {
