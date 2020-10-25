@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "java-truck-graphql" {
   metadata {
-    name = "graphql"
+    name = "java-truck-graphql"
     namespace = kubernetes_namespace.java-truck-graphql.metadata[0].name
   }
 

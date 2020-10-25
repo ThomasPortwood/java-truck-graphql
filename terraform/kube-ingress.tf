@@ -17,7 +17,7 @@ resource "kubernetes_ingress" "java-truck-graphql" {
       http {
         path {
           backend {
-            service_name = kubernetes_service.graphql.metadata[0].name
+            service_name = kubernetes_service.java-truck-graphql.metadata[0].name
             service_port = 8080
           }
         }

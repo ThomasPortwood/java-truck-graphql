@@ -4,14 +4,14 @@ resource "kubernetes_deployment" "java-truck-graphql" {
     labels = {
       App = "java-truck-graphql"
     }
-    namespace = kubernetes_namespace.graphql.metadata[0].name
+    namespace = kubernetes_namespace.java-truck-graphql.metadata[0].name
   }
 
   spec {
     replicas = 1
     selector {
       match_labels = {
-        App = "graphql"
+        App = "java-truck-graphql"
       }
     }
     template {
