@@ -20,7 +20,6 @@ class ResolverShould {
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;
 
-    @Test
     public void runTests() throws IOException {
 
         createNewTrucks();
