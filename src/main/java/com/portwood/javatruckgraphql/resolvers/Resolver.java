@@ -2,8 +2,10 @@ package com.portwood.javatruckgraphql.resolvers;
 
 import com.portwood.javatruckgraphql.datacontracts.request.*;
 import com.portwood.javatruckgraphql.datacontracts.response.BeanStats;
+import com.portwood.javatruckgraphql.datacontracts.response.PromotionWinner;
 import com.portwood.javatruckgraphql.datasources.mysql.entities.*;
 import com.portwood.javatruckgraphql.datasources.mysql.repositories.*;
+import com.portwood.javatruckgraphql.logic.PromotionCalculator;
 import io.leangen.graphql.annotations.*;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import io.leangen.graphql.spqr.spring.util.ConcurrentMultiMap;
@@ -27,6 +29,7 @@ public class Resolver {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final PreparationTypeRepository preparationTypeRepository;
+    private final PromotionCalculator promotionCalculator;
     private final StatusRepository statusRepository;
     private final TruckRepository truckRepository;
 
@@ -38,6 +41,7 @@ public class Resolver {
                     ItemRepository itemRepository,
                     OrderRepository orderRepository,
                     PreparationTypeRepository preparationTypeRepository,
+                    PromotionCalculator promotionCalculator,
                     StatusRepository statusRepository,
                     TruckRepository truckRepository) {
 
@@ -47,6 +51,7 @@ public class Resolver {
         this.itemRepository = itemRepository;
         this.orderRepository = orderRepository;
         this.preparationTypeRepository = preparationTypeRepository;
+        this.promotionCalculator = promotionCalculator;
         this.statusRepository = statusRepository;
         this.truckRepository = truckRepository;
     }
@@ -154,5 +159,11 @@ public class Resolver {
     @GraphQLQuery(description = "Get bean stats for previous 30 days")
     public List<BeanStats> beanStats() {
         return beanStatsRepository.getBeanStats();
+    }
+
+    @GraphQLQuery(description = "Calculate promotion")
+    public List<PromotionWinner> getPromotionWinners(@GraphQLNonNull @GraphQLId Long truckId) {
+        List<Order> orders = orderRepository.findByTruckId(truckId);
+        return promotionCalculator.calculatePromotion(orders);
     }
 }

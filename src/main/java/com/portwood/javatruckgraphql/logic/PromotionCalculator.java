@@ -1,43 +1,64 @@
 package com.portwood.javatruckgraphql.logic;
 
+import com.portwood.javatruckgraphql.datacontracts.response.CouponType;
+import com.portwood.javatruckgraphql.datacontracts.response.PromotionWinner;
 import com.portwood.javatruckgraphql.datasources.mysql.entities.Order;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class PromotionCalculator {
 
     /**
-     * The company’s having an anniversary special, and have partnered with a local sweet shop for a special promotion.
-     *
-     * In a language of your choosing, write a method that iterates over all historical orders, and
-     *
-     * sends the customer for every 11th order a coupon for a free chocolate (coupon A),
-     *
-     * the customer for every 17th order a coupon for a free pastry (coupon B ).
-     *
-     * For an order that matches both of these criteria (i.e. is an 11th order as well as a 17th order),
-     * they receive a special gold coupon for a 12-pack of bonbons (coupon C).
-     *
-     * You can define the format of the input (for example, it could be order numbers, tuples, order objects, JSON strings - whatever you prefer),
-     * and the output should be a single value that indicates which coupon the customer should get. Submit the code.
+     * every 11th order = free chocolate (coupon A)
+     * every 17th order = free pastry (coupon B)
+     * both = 12-pack of bonbons (coupon C)
      */
-    public void calculatePromotion(List<Order> orders) {
+    public List<PromotionWinner> calculatePromotion(List<Order> orders) {
 
-        List<Order> ordersSortedByAscendingCreationDate =
+        // sort orders by creation date
+        List<Order> sortedOrders =
                 orders.stream().sorted(Comparator.comparing(Order::getCreatedAt)).collect(Collectors.toList());
 
+        // get all indices
+        List<Integer> indices = IntStream.range(1, sortedOrders.size()).boxed().collect(Collectors.toList());
 
-        for (Order o : ordersSortedByAscendingCreationDate) {
+        // filter indices for each coupon
+        List<Integer> couponA = indices.stream().filter(i -> i % 11 == 0).collect(Collectors.toList());
+        List<Integer> couponB = indices.stream().filter(i -> i % 17 == 0).collect(Collectors.toList());
+        List<Integer> couponC = couponA.stream().filter(couponB::contains).collect(Collectors.toList());
 
+        // remove indices common to both A and B
+        couponA.removeAll(couponC);
+        couponB.removeAll(couponC);
 
+        // create meaningful results
+        List<PromotionWinner> couponAWinners = couponA
+                .stream()
+                .map(i -> new PromotionWinner(sortedOrders.get(i).getCustomer().getPhone(), CouponType.Chocolate))
+                .collect(Collectors.toList());
 
-        }
+        List<PromotionWinner> couponBWinners = couponB
+                .stream()
+                .map(i -> new PromotionWinner(sortedOrders.get(i).getCustomer().getPhone(), CouponType.Pastry))
+                .collect(Collectors.toList());
 
+        List<PromotionWinner> couponCWinners = couponC
+                .stream()
+                .map(i -> new PromotionWinner(sortedOrders.get(i).getCustomer().getPhone(), CouponType.Bonbons))
+                .collect(Collectors.toList());
 
+        List<PromotionWinner> winners = new ArrayList<>();
+
+        winners.addAll(couponAWinners);
+        winners.addAll(couponBWinners);
+        winners.addAll(couponCWinners);
+
+        return winners;
     }
-
 }
