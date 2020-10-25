@@ -26,11 +26,11 @@ public class PromotionCalculator {
                 orders.stream().sorted(Comparator.comparing(Order::getCreatedAt)).collect(Collectors.toList());
 
         // get all indices
-        List<Integer> indices = IntStream.range(1, sortedOrders.size()).boxed().collect(Collectors.toList());
+        List<Integer> indices = IntStream.range(0, sortedOrders.size()).boxed().collect(Collectors.toList());
 
         // filter indices for each coupon
-        List<Integer> couponA = indices.stream().filter(i -> i % 11 == 0).collect(Collectors.toList());
-        List<Integer> couponB = indices.stream().filter(i -> i % 17 == 0).collect(Collectors.toList());
+        List<Integer> couponA = indices.stream().filter(i -> (i+1) % 11 == 0).collect(Collectors.toList());
+        List<Integer> couponB = indices.stream().filter(i -> (i+1) % 17 == 0).collect(Collectors.toList());
         List<Integer> couponC = couponA.stream().filter(couponB::contains).collect(Collectors.toList());
 
         // remove indices common to both A and B
