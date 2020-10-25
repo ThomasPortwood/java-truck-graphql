@@ -34,6 +34,7 @@ public class Item {
     public Item(Long beanTypeId, Long preparationTypeId) {
         setBeanTypeId(beanTypeId);
         setPreparationTypeId(preparationTypeId);
+        setStatusId(1L);
     }
 
     public ZonedDateTime getCreatedAt() {

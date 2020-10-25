@@ -1,6 +1,7 @@
 package com.portwood.javatruckgraphql.resolvers;
 
 import com.portwood.javatruckgraphql.datacontracts.request.*;
+import com.portwood.javatruckgraphql.datacontracts.response.BeanStats;
 import com.portwood.javatruckgraphql.datasources.mysql.entities.*;
 import com.portwood.javatruckgraphql.datasources.mysql.repositories.*;
 import io.leangen.graphql.annotations.*;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @GraphQLApi
 public class Resolver {
 
+    private final BeanStatsRepository beanStatsRepository;
     private final BeanTypeRepository beanTypeRepository;
     private final CustomerRepository customerRepository;
     private final ItemRepository itemRepository;
@@ -30,7 +32,8 @@ public class Resolver {
 
     private final ConcurrentMultiMap<String, FluxSink<Order>> subscribers = new ConcurrentMultiMap<>();
 
-    public Resolver(BeanTypeRepository beanTypeRepository,
+    public Resolver(BeanStatsRepository beanStatsRepository,
+                    BeanTypeRepository beanTypeRepository,
                     CustomerRepository customerRepository,
                     ItemRepository itemRepository,
                     OrderRepository orderRepository,
@@ -38,6 +41,7 @@ public class Resolver {
                     StatusRepository statusRepository,
                     TruckRepository truckRepository) {
 
+        this.beanStatsRepository = beanStatsRepository;
         this.beanTypeRepository = beanTypeRepository;
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
@@ -145,5 +149,10 @@ public class Resolver {
         return Flux.create(
                 subscriber -> subscribers.add("order", subscriber.onDispose(() -> subscribers.remove("order", subscriber))),
                 FluxSink.OverflowStrategy.LATEST);
+    }
+
+    @GraphQLQuery(description = "Get bean stats for previous 30 days")
+    public List<BeanStats> beanStats() {
+        return beanStatsRepository.getBeanStats();
     }
 }

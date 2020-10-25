@@ -21,6 +21,17 @@ class ResolverShould {
     private GraphQLTestTemplate graphQLTestTemplate;
 
     @Test
+    public void runTests() throws IOException {
+
+        createNewTrucks();
+        createNewBeanTypes();
+        createNewPreparationTypes();
+        createNewStatuses();
+        createOrderForNewCustomerAndExistingCustomerWithCorrectStatus();
+        createNewOrderAndUpdateItemStatusInThatOrder();
+        createsOrderAndDeletesItem();
+    }
+
     public void createNewTrucks() throws IOException {
 
         // arrange
@@ -39,7 +50,6 @@ class ResolverShould {
         assertEquals("Test Truck", response.get("$.data.createTruck.name"));
     }
 
-    @Test
     public void createNewStatuses() throws IOException {
 
         // arrange
@@ -69,10 +79,9 @@ class ResolverShould {
         // assert
         assertNotNull(response2);
         assertTrue(response2.isOk());
-        assertEquals("Created", response2.get("$.data.createStatus.name"));
+        assertEquals("Completed", response2.get("$.data.createStatus.name"));
     }
 
-    @Test
     public void createNewBeanTypes() throws IOException {
 
         // arrange
@@ -92,7 +101,6 @@ class ResolverShould {
         assertEquals("Kona", response.get("$.data.createBeanType.name", String.class));
     }
 
-    @Test
     public void createNewPreparationTypes() throws IOException {
 
         // arrange
@@ -148,7 +156,6 @@ class ResolverShould {
         assertEquals(1L, response2.get("$.data.createOrder.items[0].statusId", Long.class));
     }
 
-    @Test
     public void createNewOrderAndUpdateItemStatusInThatOrder() throws IOException {
 
         // arrange
@@ -186,7 +193,6 @@ class ResolverShould {
         assertEquals(2L, response2.get("$.data.updateItemStatus.statusId", Long.class));
     }
 
-    @Test
     public void createsOrderAndDeletesItem() throws IOException {
 
         // arrange
