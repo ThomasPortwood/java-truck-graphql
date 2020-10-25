@@ -6,6 +6,11 @@ schema {
     subscription: Subscription
 }
 
+type BeanStats {
+    count: Long
+    name: String
+}
+
 "A type of coffee bean available"
 type BeanType {
     createdAt: ZonedDateTime
@@ -66,6 +71,11 @@ type PreparationType {
     price: Float
 }
 
+type PromotionWinner {
+    couponType: CouponType
+    phone: String
+}
+
 "Query root"
 type Query {
     "Get all item bean types"
@@ -74,10 +84,14 @@ type Query {
     allOrders(truckId: Long!): [Order]
     "Get all item preparation types"
     allPreparationTypes: [PreparationType]
-    "Get all trucks in our fleet"
-    allStatuses: [Truck]
+    "Get all available statuses of items in orders"
+    allStatuses: [Status]
     "Get all trucks in our fleet"
     allTrucks: [Truck]
+    "Get bean stats for previous 30 days"
+    beanStats: [BeanStats]
+    "Calculate promotion"
+    promotionWinners(truckId: ID!): [PromotionWinner]
 }
 
 "Status of an item in an order"
@@ -97,6 +111,12 @@ type Truck {
     createdAt: ZonedDateTime
     id: Long
     name: String
+}
+
+enum CouponType {
+    Bonbons
+    Chocolate
+    Pastry
 }
 
 input NewBeanTypeInput {
