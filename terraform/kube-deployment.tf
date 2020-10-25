@@ -17,7 +17,7 @@ resource "kubernetes_deployment" "java-truck-graphql" {
     template {
       metadata {
         labels = {
-          App = "graphql"
+          App = "java-truck-graphql"
         }
       }
 
@@ -29,7 +29,7 @@ resource "kubernetes_deployment" "java-truck-graphql" {
 
         container {
           image = "${var.github_docker_registry_url}:${var.docker_image_tag}"
-          name  = "graphql"
+          name  = "java-truck-graphql"
 
           port {
             container_port = 8080
