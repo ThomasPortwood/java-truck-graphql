@@ -2,7 +2,12 @@
 
 Design a database schema for the business
 
+![Schema Diagram](/images/dbeaver_ER_diagram.png)
+
 Design an API for the applications
+
+[Altair GraphQL Client](https://graphql.thomasportwood.com/altair)
+[Voyager GraphQL Browser](https://graphql.thomasportwood.com/voyager)
 
 Write a query to figure out the least popular bean over the last 30 days
 
