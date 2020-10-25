@@ -12,28 +12,56 @@ to each major table called 'attributes' or something similar to allow flexibilit
 
 ### Design an API for the applications
 
-The GraphQL schema can be viewed [here](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/test/resources/schema.graphql)
-or browsed using the following clients:
- 
-Altair GraphQL client - [https://graphql.thomasportwood.com/altair](https://graphql.thomasportwood.com/altair)
+- Spring Data Rest was installed to provide RESTful access if required. See the [description](https://graphql.thomasportwood.com/) 
+for navigating the REST portion of the API).
 
-Voyager GraphQL Browser - [https://graphql.thomasportwood.com/voyager](https://graphql.thomasportwood.com/voyager)
+- The GraphQL schema can be viewed [here](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/test/resources/schema.graphql)
+or browsed using the following clients: 
+    - Altair GraphQL client - [https://graphql.thomasportwood.com/altair](https://graphql.thomasportwood.com/altair)
+    - Voyager GraphQL Browser - [https://graphql.thomasportwood.com/voyager](https://graphql.thomasportwood.com/voyager)
 
-GraphQL operations were included to support:
+- GraphQL operations were included to support:
     - Adding new trucks, beans (Kona, Arabica, etc), preparation types (espresso, french press, etc), and item statuses
     - Creating orders for new or existing customers (distinguished only by phone number in this simple schema)
     - Updating the status of individual items in an order
     - Deleting items from orders
     - Viewing orders for a specific truck
     
-A GraphQL subscription was included to support the development of the barista app. It can be tested by (work in progress).
+- A GraphQL subscription was included to support the development of the barista app. It can be tested by:
+    - Browse to [Altair](https://graphql.thomasportwood.com/altair)
+    - Add a subscription to the request like: 
+        ```
+        subscription {
+          orderSubscription{
+            createdAt
+            id
+          }
+        }
+        ```
+    - Click on 'Send'
+    - In another window, submit an order like: 
+        ```
+        mutation {
+          createOrder(
+            input: {
+              truckId: 1
+              customerPhone: "425-343-3019"
+              items: [{ beanTypeId: 1, preparationTypeId: 1 }]
+            }
+          ) {
+            createdAt
+            id
+          }
+        }
+        ```
+    - Check the first window for an update! Super powerful!
     
 ### Write a query to figure out the least popular bean over the last 30 days
 
-This query reads all items from the previous 30 days for a given truck, groups the items by bean type, and sorts the 
+- [This native SQL query](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/main/java/com/portwood/javatruckgraphql/datasources/mysql/repositories/BeanStatsRepository.java#L15) 
+reads all items from the previous 30 days for a given truck, groups the items by bean type, and sorts the 
 groups by ascending total count. This will give us a running metric to consider which bean to replace:
-
-[Bean Stats!](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/main/java/com/portwood/javatruckgraphql/datasources/mysql/repositories/BeanStatsRepository.java#L15)
+- Note that the bean stats for a specific truck are exposed in a GraphQL query 
 
 ### Special Promotion
 

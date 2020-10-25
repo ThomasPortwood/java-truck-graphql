@@ -14,7 +14,7 @@ public interface BeanStatsRepository extends JpaRepository<BeanStats, Long> {
             nativeQuery = true,
             value = "select bt.name as name, count(*) as count from item " +
                     "inner join bean_type bt on item.bean_type_id = bt.id " +
-                    "where item.created_at between date_sub(now(), interval 30 day) and date_add(now(), interval 1 day) " +
+                    "where item.created_at between date_sub(now(), interval 30 day) and now() " +
                     "group by item.bean_type_id " +
                     "order by count(*) asc"
     )
