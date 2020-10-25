@@ -30,7 +30,8 @@ or browsed using the following clients:
     
 - A GraphQL subscription was included to support the development of the barista app. It can be tested by:
     - Browse to [Altair](https://graphql.thomasportwood.com/altair)
-    - Ensure the subscription URL is correct by selectiont 'Subscription URL' on the left toolbar and setting it to "wss://graphql.thomasportwood.com/subscriptions"
+    - Ensure the subscription URL is correct by selecting 'Subscription URL' on the left toolbar and setting it to 
+    `wss://graphql.thomasportwood.com/subscriptions`
     - Add a subscription to the request like: 
         ```
         subscription {
@@ -83,5 +84,13 @@ type of coupon the customer will receive.
 - The GraphQL tests only served as a debugging tool. I would write more tests for failures and edge cases. 
 
 #### Instructions on how to run the code from Part 4
-
+- The calculation of promotion coupon distribution by customer phone number can be run via GraphQL:
+    ```
+    query {
+      promotionWinners(truckId: 1, days: 7){
+        couponType
+        phone
+      }
+    }
+    ```
 #### Time spent 
