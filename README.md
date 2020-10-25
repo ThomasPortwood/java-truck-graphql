@@ -29,6 +29,7 @@ or browsed using the following clients:
     
 - A GraphQL subscription was included to support the development of the barista app. It can be tested by:
     - Browse to [Altair](https://graphql.thomasportwood.com/altair)
+    - Ensure the subscription URL is correct by selectiont 'Subscription URL' on the left toolbar and setting it to "wss://graphql.thomasportwood.com/subscriptions"
     - Add a subscription to the request like: 
         ```
         subscription {
@@ -65,11 +66,10 @@ groups by ascending total count. This will give us a running metric to consider 
 
 ### Special Promotion
 
-A 'Promotion Calculator' was added to efficiently produce usable data for distribution of promotional coupons. A group 
-of orders is sorted by creation date to determine every 11th and every 17th order, and which ones are common. An enum 
-is used to represent the type of coupon the customer will receive:
-
-[Promotion Calculation!](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/main/java/com/portwood/javatruckgraphql/logic/PromotionCalculator.java#L22)
+A [Promotion Calculator!](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/main/java/com/portwood/javatruckgraphql/logic/PromotionCalculator.java#L22) 
+was added to efficiently produce usable data for distribution of promotional coupons. A group of orders is sorted by 
+creation date to determine every 11th and every 17th order, and which ones are common. An enum is used to represent the 
+type of coupon the customer will receive.
 
 #### Assumptions you’ve made
 
