@@ -5,8 +5,8 @@ resource "kubernetes_secret" "java-truck-graphql" {
   }
 
   data = {
-    SPRING_DATASOURCE_URL = var.spring_datasource_url
-    SPRING_DATASOURCE_USERNAME = var.spring_datasource_username
-    SPRING_DATASOURCE_PASSWORD = var.spring_datasource_password
+    SPRING_DATASOURCE_URL = aws_db_instance.java-truck-graphql.endpoint
+    SPRING_DATASOURCE_USERNAME = var.mysql_username
+    SPRING_DATASOURCE_PASSWORD = var.mysql_password
   }
 }
