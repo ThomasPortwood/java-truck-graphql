@@ -1,17 +1,22 @@
-# java-truck-graphql
+# Java Truck!
 
-Design a database schema for the business
+### Design a database schema for the business
 
 ![Schema Diagram](/images/dbeaver_ER_diagram.png)
 
-Design an API for the applications
+### Design an API for the applications
 
 [Altair GraphQL Client](https://graphql.thomasportwood.com/altair)
 [Voyager GraphQL Browser](https://graphql.thomasportwood.com/voyager)
 
-Write a query to figure out the least popular bean over the last 30 days
+### Write a query to figure out the least popular bean over the last 30 days
 
-Code
+[Bean Stats!](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/main/java/com/portwood/javatruckgraphql/datasources/mysql/repositories/BeanStatsRepository.java#L15)
+
+### Special Promotion
+
+[Promotion Calculation!](https://github.com/ThomasPortwood/java-truck-graphql/blob/main/src/main/java/com/portwood/javatruckgraphql/logic/PromotionCalculator.java#L22)
+
 
 Assumptions you’ve made
 

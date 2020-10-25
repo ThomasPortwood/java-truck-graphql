@@ -8,3 +8,4 @@ variable "mysql_password" {}
 variable "provider_access_key" {}
 variable "provider_secret_key" {}
 variable "ssl_cert_arn" {}
+variable "spring_datasource_url" {}
