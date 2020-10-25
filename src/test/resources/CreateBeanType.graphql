@@ -1,0 +1,6 @@
+mutation CreateBeanType($input: NewBeanTypeInput!) {
+    createBeanType(input: $input) {
+        id
+        name
+    }
+}

@@ -1,0 +1,6 @@
+mutation CreateBeanType($input: NewStatusInput!) {
+    createStatus(input: $input) {
+        id
+        name
+    }
+}

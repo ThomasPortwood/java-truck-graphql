@@ -1,0 +1,6 @@
+mutation CreateOrder($input: NewTruckInput!) {
+    createTruck(input: $input) {
+        id
+        name
+    }
+}

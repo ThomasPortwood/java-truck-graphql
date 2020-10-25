@@ -1,0 +1,15 @@
+mutation CreateOrder($input: NewOrderInput!) {
+    createOrder(input: $input) {
+        id
+        customer {
+            id
+        }
+        truck {
+            id
+        }
+        items {
+            id
+            statusId
+        }
+    }
+}

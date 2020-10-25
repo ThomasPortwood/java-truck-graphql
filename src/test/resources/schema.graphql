@@ -1,0 +1,139 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+"A type of coffee bean available"
+type BeanType {
+    createdAt: ZonedDateTime
+    id: Long
+    name: String
+    priceMultiplier: Float
+}
+
+"Simple reference to a customer by phone only"
+type Customer {
+    createdAt: ZonedDateTime
+    id: Long
+    phone: String
+}
+
+"An item belonging to a specific customer order"
+type Item {
+    beanTypeId: Long
+    createdAt: ZonedDateTime
+    id: Long
+    order: Order
+    preparationTypeId: Long
+    statusId: Long
+}
+
+"Mutation root"
+type Mutation {
+    "Create a new bean type"
+    createBeanType(input: NewBeanTypeInput!): BeanType
+    "Create a new order"
+    createOrder(input: NewOrderInput!): Order
+    "Create a new preparation type"
+    createPreparationType(input: NewPreparationTypeInput!): PreparationType
+    "Create a new status"
+    createStatus(input: NewStatusInput!): Status
+    "Create a new truck"
+    createTruck(input: NewTruckInput!): Truck
+    "Delete a given item"
+    deleteItem(id: ID!): Boolean!
+    "Update the status of a given item"
+    updateItemStatus(id: ID!, statusId: ID!): Item
+}
+
+"An order belonging to a specific customer"
+type Order {
+    createdAt: ZonedDateTime
+    customer: Customer
+    id: Long
+    items: [Item]
+    truck: Truck
+}
+
+"A type of coffee preparation"
+type PreparationType {
+    createdAt: ZonedDateTime
+    id: Long
+    name: String
+    price: Float
+}
+
+"Query root"
+type Query {
+    "Get all item bean types"
+    allBeanTypes: [BeanType]
+    "Get all orders for a given truck"
+    allOrders(truckId: Long!): [Order]
+    "Get all item preparation types"
+    allPreparationTypes: [PreparationType]
+    "Get all trucks in our fleet"
+    allStatuses: [Truck]
+    "Get all trucks in our fleet"
+    allTrucks: [Truck]
+}
+
+"Status of an item in an order"
+type Status {
+    createdAt: ZonedDateTime
+    id: Long
+    name: String
+}
+
+"Subscription root"
+type Subscription {
+    orderSubscription: Order
+}
+
+"A truck in our fleet"
+type Truck {
+    createdAt: ZonedDateTime
+    id: Long
+    name: String
+}
+
+input NewBeanTypeInput {
+    name: String
+    priceMultiplier: Float
+}
+
+input NewItemInput {
+    beanTypeId: Long
+    preparationTypeId: Long
+}
+
+input NewOrderInput {
+    customerPhone: String
+    items: [NewItemInput]
+    truckId: Long
+}
+
+input NewPreparationTypeInput {
+    name: String
+    price: Float
+}
+
+input NewStatusInput {
+    name: String
+}
+
+input NewTruckInput {
+    name: String
+}
+
+
+"Built-in scalar representing a date-time with a time-zone"
+scalar ZonedDateTime
+
+"Unrepresentable type"
+scalar UNREPRESENTABLE
+
+"Long type"
+scalar Long

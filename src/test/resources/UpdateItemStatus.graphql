@@ -1,0 +1,6 @@
+mutation UpdateItemStatus($id: ID!, $statusId: ID!) {
+    updateItemStatus(id: $id, statusId: $statusId) {
+        id
+        statusId
+    }
+}

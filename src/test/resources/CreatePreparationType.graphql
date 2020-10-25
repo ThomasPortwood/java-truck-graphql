@@ -1,0 +1,6 @@
+mutation CreatePreparationType($input: NewPreparationTypeInput!) {
+    createPreparationType(input: $input) {
+        id
+        name
+    }
+}
