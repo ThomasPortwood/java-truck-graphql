@@ -166,7 +166,7 @@ public class Resolver {
     public List<PromotionWinner> getPromotionWinners(@GraphQLNonNull @GraphQLId Long truckId, @GraphQLNonNull Long days) {
 
         List<Order> orders = orderRepository.findByTruckIdAndCreatedAtBetween(
-                truckId, ZonedDateTime.now(), ZonedDateTime.now().minusDays(days));
+                truckId, ZonedDateTime.now().minusDays(days), ZonedDateTime.now());
 
         return promotionCalculator.calculatePromotion(orders);
     }
